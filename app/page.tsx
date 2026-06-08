@@ -10,6 +10,7 @@ import SideBar, { Tabs } from "@/components/SideBar";
 import Experiences from "@/components/Experiences";
 import Projects from "@/components/Projects";
 import { ThemeKey, THEMES } from "@/types/type";
+import Callback from "@/components/Callback";
 
 export default function Home() {
   const [hasEntered, setHasEntered] = useState(false);
@@ -59,7 +60,7 @@ export default function Home() {
       opacity: 1,
       scale: 1,
       y: 0,
-      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }, // เติม as const ตรงนี้
     },
   };
 
@@ -118,6 +119,20 @@ export default function Home() {
             className="w-full"
           >
             <Projects theme={currentThemeConfig} />
+          </motion.div>
+        </section>
+        <section
+          id="contact"
+          className="min-h-screen flex items-center justify-center pt-10"
+        >
+          <motion.div
+            variants={blurScaleVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false, amount: 0.3 }} // ขยับ amount ให้มันโผล่มาตอนเลื่อนมาถึง 30% ของกล่อง
+            className="w-full"
+          >
+            <Callback theme={currentThemeConfig} />
           </motion.div>
         </section>
       </main>

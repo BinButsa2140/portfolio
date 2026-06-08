@@ -61,7 +61,7 @@ export const THEMES: Record<Exclude<ThemeKey, 'custom'>, ThemeConfig> = {
       textPrimary: 'text-slate-50', // เปลี่ยนเป็น Dark Mode เพื่อให้อ่านง่ายบนพื้นหลังมืด
       textSecondary: 'text-slate-300/80',
       bgPrimary: 'bg-slate-900', // กระจกสีเทาเข้ม
-      bgSecondary: 'bg-slate-800',
+      bgSecondary: 'bg-slate-800/10',
       border: 'border-slate-500/30',
       accent: 'text-sky-400', // สีฟ้าหม่นเข้ากับสายฝน
     }

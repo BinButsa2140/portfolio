@@ -26,7 +26,7 @@ export const BackgroundManager = ({ currentTheme }: { currentTheme: ThemeConfig 
         src={currentTheme.audioSrc}
         loop
         // ปรับระดับเสียงเริ่มต้น (0.0 ถึง 1.0)
-        volume={0.3}
+        // volume={0.3}
       />
 
       <AnimatePresence mode="wait">
