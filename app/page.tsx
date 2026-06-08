@@ -1,65 +1,127 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import Information from '@/components/Information';
+import SideBar, { Tabs } from '@/components/SideBar';
+import Experiences from '@/components/Experiences';
+import Projects from '@/components/Projects';
+
+const Home = () => {
+  const [activeTab, setActiveTab] = useState<Tabs>('profile');
+
+  // 1. ตรวจจับการ Scroll (Scroll Spy) เพื่อเปลี่ยนสี Sidebar อัตโนมัติ
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveTab(entry.target.id as Tabs);
+          }
+        });
+      },
+      { rootMargin: '-40% 0px -40% 0px' }
+    );
+
+    const sections = document.querySelectorAll('section[id]');
+    sections.forEach((section) => observer.observe(section));
+
+    return () => sections.forEach((section) => observer.unobserve(section));
+  }, []);
+
+  // 2. ฟังก์ชันกด Tab แล้วเลื่อนแบบนุ่มนวล (Smooth Scroll)
+  const handleScrollToSection = (tabId: Tabs) => {
+    setActiveTab(tabId);
+    const element = document.getElementById(tabId);
+    if (element) {
+      const offset = 40; 
+      const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({
+        top: elementPosition - offset,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  // 3. แอนิเมชันสไตล์ Apple / Premium (Smooth Blur & Scale)
+  const blurScaleVariants = {
+    hidden: { 
+      opacity: 0, 
+      scale: 0.85, 
+      y: 60,
+      filter: 'blur(10px)' 
+    },
+    visible: { 
+      opacity: 1, 
+      scale: 1, 
+      y: 0,
+      filter: 'blur(0px)',
+      transition: { 
+        duration: 0.8, 
+        ease: [0.16, 1, 0.3, 1] // Easing curve แบบนุ่มนวลเป็นพิเศษ สไตล์ Apple
+      } 
+    }
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    // เติม overflow-x-hidden เพื่อป้องกันหน้าจอแกว่งซ้ายขวาตอนที่การ์ดสไลด์เข้ามา
+    <div className="relative min-h-screen w-full flex overflow-x-hidden">
+      
+      <SideBar activeTab={activeTab} onTabChange={handleScrollToSection} />
+
+      <main className="flex-1 pb-24 md:pb-10 md:pl-24 w-full flex flex-col gap-10 scroll-smooth">
+        
+        <section id="profile" className="min-h-screen flex items-center pt-10 md:pt-0">
+          <motion.div 
+            variants={blurScaleVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false, amount: 0.2 }} 
+            className="w-full"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <Information />
+          </motion.div>
+        </section>
+
+        <section id="experiences" className="min-h-screen pt-10">
+          <motion.div 
+            variants={blurScaleVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false, amount: 0.1 }}
+            className="w-full"
           >
-            Documentation
-          </a>
-        </div>
+            <Experiences />
+          </motion.div>
+        </section>
+
+        <section id="projects" className="min-h-screen pt-10">
+          <motion.div 
+            variants={blurScaleVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false, amount: 0.1 }}
+            className="w-full"
+          >
+            <Projects />
+          </motion.div>
+        </section>
+
+        {/* <section id="certificate" className="min-h-screen flex items-center justify-center">
+          <motion.div 
+            variants={blurScaleVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false, amount: 0.3 }}
+            className="max-w-5xl w-full mx-auto p-8 rounded-[2.5rem] shadow-xl bg-white/40 backdrop-blur-2xl border border-white/50 text-center text-gray-500 text-2xl font-bold"
+          >
+            Certificate Component
+          </motion.div>
+        </section> */}
+
       </main>
     </div>
   );
-}
+};
+
+export default Home;
