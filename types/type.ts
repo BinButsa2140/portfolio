@@ -40,7 +40,7 @@ export const THEMES: Record<Exclude<ThemeKey, 'custom'>, ThemeConfig> = {
     id: 'sunset-beach',
     name: 'Sunset Beach',
     videoSrc: '/videos/beach2.mp4',
-    audioSrc: '/audio/sunset-waves.mp3',
+    audioSrc: '/audio/beach.mp3',
     overlay: 'bg-orange-950/20', // ฟิลเตอร์โทนอุ่น
     colors: {
       textPrimary: 'text-orange-950',
@@ -55,7 +55,7 @@ export const THEMES: Record<Exclude<ThemeKey, 'custom'>, ThemeConfig> = {
     id: 'rainy-city',
     name: 'Rainy City',
     videoSrc: '/videos/city.mp4',
-    audioSrc: '/audio/city-rain.mp3',
+    audioSrc: '/audio/rain.mp3',
     overlay: 'bg-slate-900/40', // ฟิลเตอร์มืดๆ ให้ฟีลฝนตก
     colors: {
       textPrimary: 'text-slate-50', // เปลี่ยนเป็น Dark Mode เพื่อให้อ่านง่ายบนพื้นหลังมืด
@@ -70,7 +70,7 @@ export const THEMES: Record<Exclude<ThemeKey, 'custom'>, ThemeConfig> = {
     id: 'flower',
     name: 'Blooming Flower', // เปลี่ยนชื่อให้เข้ากับธีม
     videoSrc: '/videos/flower trim.mp4',
-    audioSrc: '/audio/flower.mp3',
+    audioSrc: '/audio/green.mp3',
     overlay: 'bg-rose-100/20', // ฟิลเตอร์โทนสว่าง อมชมพูอ่อนๆ ให้ฟีลละมุน
     colors: {
       textPrimary: 'text-rose-950', // สีข้อความหลักเป็นโทนแดงกุหลาบเข้มจัด (เกือบน้ำตาล) เพื่อให้อ่านง่าย

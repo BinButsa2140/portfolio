@@ -4,22 +4,39 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { EnterScreen } from "@/components/EnterScreen";
 import { BackgroundManager } from "@/components/BackgroundManager";
-import { ThemeToggle } from "@/components/ThemeToggle"; // Import Component ใหม่เข้ามา
+import { SettingsMenu } from "@/components/SettingsMenu"; // เปลี่ยนจาก ThemeToggle เป็น SettingsMenu
 import Information from "@/components/Information";
 import SideBar, { Tabs } from "@/components/SideBar";
 import Experiences from "@/components/Experiences";
 import Projects from "@/components/Projects";
-import { ThemeKey, THEMES } from "@/types/type";
 import Callback from "@/components/Callback";
+import { ThemeKey, THEMES } from "@/types/type";
 
 export default function Home() {
   const [hasEntered, setHasEntered] = useState(false);
   const [activeThemeId, setActiveThemeId] = useState<ThemeKey>("ios");
   const [activeTab, setActiveTab] = useState<Tabs>("profile");
 
+  // State จัดการเสียง (ค่าเริ่มต้นให้ Mute ไว้ก่อน เผื่อพลาด)
+  const [isMusicMuted, setIsMusicMuted] = useState(true);
+  const [isAmbienceMuted, setIsAmbienceMuted] = useState(true);
+
   const currentThemeConfig = THEMES[activeThemeId as keyof typeof THEMES];
 
-  // 1. ตรวจจับการ Scroll (Scroll Spy)
+  // ฟังก์ชันรับค่าจากหน้า Enter Screen
+  const handleEnter = (playAudio: boolean) => {
+    if (playAudio) {
+      // ถ้ากด "เปิดเสียงเลย"
+      setIsMusicMuted(false);
+      setIsAmbienceMuted(false);
+    } else {
+      // ถ้ากด "ขอเข้าแบบเงียบๆ"
+      setIsMusicMuted(true);
+      setIsAmbienceMuted(true);
+    }
+    setHasEntered(true);
+  };
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -38,7 +55,6 @@ export default function Home() {
     return () => sections.forEach((section) => observer.unobserve(section));
   }, []);
 
-  // 2. ฟังก์ชันกด Tab แล้วเลื่อน
   const handleScrollToSection = (tabId: Tabs) => {
     setActiveTab(tabId);
     const element = document.getElementById(tabId);
@@ -53,14 +69,13 @@ export default function Home() {
     }
   };
 
-  // 3. แอนิเมชันสไตล์ Apple
   const blurScaleVariants = {
     hidden: { opacity: 0, scale: 0.85, y: 60 },
     visible: {
       opacity: 1,
       scale: 1,
       y: 0,
-      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }, // เติม as const ตรงนี้
+      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const },
     },
   };
 
@@ -69,18 +84,30 @@ export default function Home() {
       className={`relative min-h-screen w-full flex overflow-x-hidden transition-colors duration-1000 ${currentThemeConfig?.colors?.textPrimary || "text-gray-900"}`}
     >
       <AnimatePresence>
-        {!hasEntered && <EnterScreen onEnter={() => setHasEntered(true)} />}
+        {!hasEntered && <EnterScreen onEnter={handleEnter} />}
       </AnimatePresence>
 
-      {hasEntered && <BackgroundManager currentTheme={currentThemeConfig} />}
+      {/* ส่ง Props เสียงเข้าไปควบคุม BackgroundManager */}
+      {hasEntered && (
+        <BackgroundManager
+          currentTheme={currentThemeConfig}
+          isMusicMuted={isMusicMuted}
+          isAmbienceMuted={isAmbienceMuted}
+        />
+      )}
 
       <SideBar activeTab={activeTab} onTabChange={handleScrollToSection} />
 
       <main className="flex-1 pb-24 md:pb-10 md:pl-24 w-full flex flex-col gap-10 scroll-smooth relative z-10">
-        {/* เรียกใช้งาน ThemeToggle ที่แยกออกมา */}
-        <ThemeToggle
+        
+        {/* เปลี่ยนจาก ThemeToggle เป็น SettingsMenu แล้วส่ง props เข้าไปให้ครบ */}
+        <SettingsMenu
           activeThemeId={activeThemeId}
           onThemeChange={setActiveThemeId}
+          isMusicMuted={isMusicMuted}
+          setIsMusicMuted={setIsMusicMuted}
+          isAmbienceMuted={isAmbienceMuted}
+          setIsAmbienceMuted={setIsAmbienceMuted}
         />
 
         <section
@@ -121,6 +148,7 @@ export default function Home() {
             <Projects theme={currentThemeConfig} />
           </motion.div>
         </section>
+
         <section
           id="contact"
           className="min-h-screen flex items-center justify-center pt-10"
@@ -129,7 +157,7 @@ export default function Home() {
             variants={blurScaleVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: false, amount: 0.3 }} // ขยับ amount ให้มันโผล่มาตอนเลื่อนมาถึง 30% ของกล่อง
+            viewport={{ once: false, amount: 0.3 }}
             className="w-full"
           >
             <Callback theme={currentThemeConfig} />

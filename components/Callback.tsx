@@ -76,12 +76,13 @@ const Callback = ({ theme }: { theme: ThemeConfig }) => {
             <p
               className={`text-lg md:text-xl mb-10 max-w-xl mx-auto leading-relaxed transition-colors duration-1000 ${theme.colors.textSecondary}`}
             >
-              I am currently available for new opportunities. If you are looking for a dedicated developer to collaborate on your next project, please feel free to reach out!
+              I am currently available for new opportunities. If you are looking
+              for a dedicated developer to collaborate on your next project,
+              please feel free to reach out!
             </p>
 
             {/* ปุ่มกดโทรและอีเมล */}
             <div className="flex flex-col md:flex-row items-center md:items-start justify-center gap-6 md:gap-8">
-              
               {/* ส่วนเบอร์โทร */}
               <div className="flex flex-col items-center gap-2">
                 <a
@@ -106,11 +107,12 @@ const Callback = ({ theme }: { theme: ThemeConfig }) => {
                   />
                   Email Me
                 </a>
-                <div className={`text-sm font-medium tracking-wide transition-colors duration-1000 mt-1 ${theme.colors.textSecondary}`}>
+                <div
+                  className={`text-sm font-medium tracking-wide transition-colors duration-1000 mt-1 ${theme.colors.textSecondary}`}
+                >
                   binsung.butsabong@gmail.com
                 </div>
               </div>
-              
             </div>
           </motion.div>
         )}

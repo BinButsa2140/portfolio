@@ -10,7 +10,6 @@ interface SideBarProps {
 }
 
 const SideBar = ({ activeTab, onTabChange }: SideBarProps) => {
-  // เก็บเพียงตัวแปรคอมโพเนนต์ เพื่อให้สามารถส่งผ่าน Props (className) ได้ในขั้นตอน Render
   const navItems = [
     { id: 'profile', label: 'Profile', icon: User },
     { id: 'experiences', label: 'Experiences', icon: Briefcase },
@@ -19,61 +18,92 @@ const SideBar = ({ activeTab, onTabChange }: SideBarProps) => {
   ] as const;
 
   return (
-    <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 md:translate-x-0 md:left-6 md:top-1/2 md:-translate-y-1/2 z-50">
-      
-      {/* สร้าง Linear Gradient ซ่อนไว้สำหรับนำไปใช้กับ SVG Stroke */}
-      <svg width="0" height="0" className="absolute pointer-events-none">
-        <defs>
-          <linearGradient id="googleColors" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#4285F4" />  {/* Blue */}
-            <stop offset="33%" stopColor="#EA4335" /> {/* Red */}
-            <stop offset="66%" stopColor="#FBBC05" /> {/* Yellow */}
-            <stop offset="100%" stopColor="#34A853" /> {/* Green */}
-          </linearGradient>
-        </defs>
-      </svg>
+    <>
+      {/* 1. ใส่ <style> สำหรับทำอนิเมชันให้ตัวหนังสือ Gradient วิ่งได้ */}
+      <style>{`
+        @keyframes gradientText {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .animate-gradient-text {
+          background-size: 200% auto;
+          animation: gradientText 3s linear infinite;
+        }
+      `}</style>
 
-      <div className="flex md:flex-col gap-2 p-2 rounded-full md:rounded-3xl bg-white/40 border border-white/50 shadow-xl">
-        {navItems.map((item) => {
-          const isActive = activeTab === item.id;
-          const Icon = item.icon;
-          
-          return (
-            <button
-              key={item.id}
-              onClick={() => onTabChange(item.id as Tabs)}
-              aria-label={item.label}
-              // ใส่คลาส group เพื่อให้คอมโพเนนต์ลูก (Tooltip และ Icon) ตอบสนองเมื่อเมาส์ชี้ที่ปุ่ม
-              className={`
-                group relative flex items-center justify-center p-3 rounded-full transition-all duration-300 ease-out
-                ${isActive 
-                  ? 'bg-white/80 shadow-sm scale-105' 
-                  : 'hover:bg-white/50'
-                }
-              `}
-            >
-              {/* ตัวไอคอน: หาก Active จะบังคับใช้สี Gradient ทันที หากไม่ Active จะใช้สีเทาและเปลี่ยนเป็น Gradient เมื่อ Hover */}
-              <Icon 
-                className={`w-5 h-5 transition-all duration-300 ${
-                  isActive 
-                    ? '[stroke:url(#googleColors)]' 
-                    : 'text-gray-500 group-hover:[stroke:url(#googleColors)]'
-                }`} 
-              />
+      <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 md:translate-x-0 md:left-6 md:top-1/2 md:-translate-y-1/2 z-50">
+        
+        {/* 2. สร้าง SVG Gradient ที่มีแท็ก <animate> วิ่งเปลี่ยนสีตลอดเวลา */}
+        <svg width="0" height="0" className="absolute pointer-events-none">
+          <defs>
+            <linearGradient id="animatedGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#3b82f6"> {/* โทนฟ้า */}
+                <animate attributeName="stop-color" values="#3b82f6;#8b5cf6;#ec4899;#3b82f6" dur="4s" repeatCount="indefinite" />
+              </stop>
+              <stop offset="50%" stopColor="#8b5cf6"> {/* โทนม่วง */}
+                <animate attributeName="stop-color" values="#8b5cf6;#ec4899;#3b82f6;#8b5cf6" dur="4s" repeatCount="indefinite" />
+              </stop>
+              <stop offset="100%" stopColor="#ec4899"> {/* โทนชมพู */}
+                <animate attributeName="stop-color" values="#ec4899;#3b82f6;#8b5cf6;#ec4899" dur="4s" repeatCount="indefinite" />
+              </stop>
+            </linearGradient>
+          </defs>
+        </svg>
 
-              {/* Tooltip: แสดงผลด้านบนในมือถือ และแสดงผลด้านขวาในจอคอมพิวเตอร์ */}
-              <span 
-                className="absolute w-max px-3 py-1.5 bg-white/90 backdrop-blur-md border border-gray-200 text-gray-800 text-sm font-medium rounded-xl shadow-sm opacity-0 scale-95 pointer-events-none transition-all duration-300 origin-bottom md:origin-left group-hover:opacity-100 group-hover:scale-100
-                bottom-full mb-3 left-1/2 -translate-x-1/2
-                md:bottom-auto md:mb-0 md:left-full md:ml-4 md:top-1/2 md:-translate-y-1/2 md:translate-x-0"
+        <div className="flex md:flex-col gap-2 p-2 rounded-full md:rounded-3xl bg-white/40 backdrop-blur-md border border-white/50 shadow-xl">
+          {navItems.map((item) => {
+            const isActive = activeTab === item.id;
+            const Icon = item.icon;
+            
+            return (
+              <button
+                key={item.id}
+                onClick={() => onTabChange(item.id as Tabs)}
+                aria-label={item.label}
+                // ปรับคลาสให้ Desktop เป็นแนวยาว (พิล) และจัดเนื้อหาชิดซ้าย
+                className={`
+                  group relative flex items-center md:justify-start gap-3 p-3 md:px-5 md:py-3.5 rounded-full md:rounded-2xl transition-all duration-300 ease-out
+                  ${isActive 
+                    ? 'bg-white/90 shadow-sm md:scale-105' 
+                    : 'hover:bg-white/60 md:hover:scale-105'
+                  }
+                `}
               >
-                {item.label}
-              </span>
-            </button>
-          );
-        })}
-      </div>
-    </nav>
+                {/* ไอคอน: ดึงสีจาก Animated Gradient */}
+                <Icon 
+                  className={`w-5 h-5 shrink-0 transition-all duration-300 ${
+                    isActive 
+                      ? '[stroke:url(#animatedGradient)]' 
+                      : 'text-gray-500 group-hover:[stroke:url(#animatedGradient)]'
+                  }`} 
+                />
+
+                {/* ตัวหนังสือ (โชว์เฉพาะ Desktop): 
+                  ถ้า Active จะเป็นตัวอักษร Gradient วิ่งๆ ถ้าไม่จะใช้สีเทาปกติ 
+                */}
+                <span className={`hidden md:block whitespace-nowrap font-bold transition-all duration-300 ${
+                  isActive 
+                    ? 'bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text animate-gradient-text'
+                    : 'text-gray-500 group-hover:text-gray-800'
+                }`}>
+                  {item.label}
+                </span>
+
+                {/* Tooltip (โชว์เฉพาะ Mobile):
+                  เนื่องจาก Desktop โชว์ชื่อแท็บแล้ว เราจึงซ่อน Tooltip ในจอใหญ่ (md:hidden)
+                */}
+                <span 
+                  className="md:hidden absolute w-max px-3 py-1.5 bg-white/90 backdrop-blur-md border border-gray-200 text-gray-800 text-sm font-medium rounded-xl shadow-sm opacity-0 scale-95 pointer-events-none transition-all duration-300 origin-bottom group-hover:opacity-100 group-hover:scale-100 bottom-full mb-3 left-1/2 -translate-x-1/2"
+                >
+                  {item.label}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </nav>
+    </>
   );
 };
 

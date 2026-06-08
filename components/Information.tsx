@@ -76,7 +76,7 @@ const Information = ({ theme }: { theme: ThemeConfig }) => {
     <div className={`max-w-5xl mx-auto my-10 rounded-[2.5rem] shadow-2xl border overflow-hidden transition-colors duration-1000 ${theme.colors.bgPrimary} ${theme.colors.border}`}>
       <div className={`relative w-full h-48 md:h-64 flex items-center justify-center border-b transition-colors duration-1000 ${theme.colors.bgSecondary} ${theme.colors.border}`}>
         <span className={`text-sm font-medium absolute z-10 ${theme.colors.textSecondary}`}>
-          Insert Cover Photo
+          Fight like a Honey badger
         </span>
         <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none" />
       </div>
