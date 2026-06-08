@@ -33,7 +33,7 @@ const SideBar = ({ activeTab, onTabChange }: SideBarProps) => {
         </defs>
       </svg>
 
-      <div className="flex md:flex-col gap-2 p-2 rounded-full md:rounded-3xl bg-white/40 backdrop-blur-2xl border border-white/50 shadow-xl">
+      <div className="flex md:flex-col gap-2 p-2 rounded-full md:rounded-3xl bg-white/40 border border-white/50 shadow-xl">
         {navItems.map((item) => {
           const isActive = activeTab === item.id;
           const Icon = item.icon;
