@@ -112,14 +112,14 @@ const Experiences = ({ theme }: { theme: ThemeConfig }) => {
     },
     {
       id: 'botnoi',
-      role: 'Backend Developer (Hackathon)',
+      role: 'Backend Developer',
       company: 'Botnoi Consulting',
       location: 'Bangkok, Thailand',
       period: 'April 2025 - June 2025',
       
       details: [
         {
-          title: "AI Chatbot Leave Management System",
+          title: "AI Chatbot Leave Management System (Hackathon)",
           items: [
             "Developed an automated leave management AI Chatbot using the LINE Messaging API during an internal corporate Hackathon.",
             "Designed a conversational flow where the chatbot intercepts user leave requests and automatically generates a confirmation prompt for the specified dates.",
