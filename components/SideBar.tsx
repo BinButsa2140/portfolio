@@ -1,6 +1,6 @@
 'use client';
 
-import { User, FolderGit2, Briefcase, Award } from 'lucide-react';
+import { User, FolderGit2, Briefcase } from 'lucide-react';
 
 export type Tabs = 'profile' | 'projects' | 'experiences' | 'certificate';
 

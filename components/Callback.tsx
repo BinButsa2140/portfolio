@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, Phone, X, HeartHandshake } from "lucide-react";
+import { Mail, Phone, X } from "lucide-react";
 import { ThemeConfig } from "@/types/type";
 import { motion, AnimatePresence } from "framer-motion";
+import Gallery from "./Gallery";
 
 const Callback = ({ theme }: { theme: ThemeConfig }) => {
   // สร้าง State เก็บสถานะว่า "เปิดจดหมายหรือยัง"
@@ -53,7 +54,7 @@ const Callback = ({ theme }: { theme: ThemeConfig }) => {
             initial={{ opacity: 0, scale: 0.8, y: 50 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ type: "spring", bounce: 0.4, duration: 0.8 }}
-            className={`relative w-full max-w-3xl p-10 md:p-16 text-center rounded-[3rem] shadow-2xl border transition-colors duration-1000 ${theme.colors.bgPrimary} ${theme.colors.border}`}
+            className={`relative w-full max-w-4xl p-10 md:p-16 text-center rounded-[3rem] shadow-2xl border transition-colors duration-1000 ${theme.colors.bgPrimary} ${theme.colors.border}`}
           >
             {/* ปุ่มกากบาทมุมขวาบน สำหรับปิดจดหมายกลับเป็นซองเหมือนเดิม */}
             <button
@@ -70,7 +71,7 @@ const Callback = ({ theme }: { theme: ThemeConfig }) => {
             <h2
               className={`text-4xl md:text-5xl font-black mb-6 transition-colors duration-1000 ${theme.colors.textPrimary}`}
             >
-              Let's Work Together 🙏
+              Let&apos;s Work Together 🙏
             </h2>
 
             <p
@@ -82,7 +83,7 @@ const Callback = ({ theme }: { theme: ThemeConfig }) => {
             </p>
 
             {/* ปุ่มกดโทรและอีเมล */}
-            <div className="flex flex-col md:flex-row items-center md:items-start justify-center gap-6 md:gap-8">
+            <div className="flex flex-col md:flex-row items-center md:items-start justify-center gap-6 md:gap-8 mb-12">
               {/* ส่วนเบอร์โทร */}
               <div className="flex flex-col items-center gap-2">
                 <a
@@ -113,6 +114,16 @@ const Callback = ({ theme }: { theme: ThemeConfig }) => {
                   binsung.butsabong@gmail.com
                 </div>
               </div>
+            </div>
+
+            {/* Gallery Section - Inset style */}
+            <div className="mt-8 border-t pt-10">
+               <div className="relative rounded-[2rem] overflow-hidden shadow-[inset_0_4px_20px_rgba(0,0,0,0.2)] h-[300px] md:h-[400px]">
+                  <div className="absolute inset-0 z-10 pointer-events-none shadow-[inset_0_0_30px_rgba(0,0,0,0.3)]" />
+                  <div className="w-full h-full">
+                     <Gallery theme={theme} isInset={true} />
+                  </div>
+               </div>
             </div>
           </motion.div>
         )}

@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Briefcase, Calendar, MapPin, ExternalLink, Globe, ChevronDown } from 'lucide-react';
+import { Briefcase, Calendar, MapPin, ChevronDown } from 'lucide-react';
 import { ThemeConfig } from "@/types/type";
 
 const Experiences = ({ theme }: { theme: ThemeConfig }) => {
@@ -21,40 +21,6 @@ const Experiences = ({ theme }: { theme: ThemeConfig }) => {
         'Developed and maintained a full-stack CMS platform for managing internal organizational content across multiple websites.',
         'Built responsive front-end interfaces using Next.js and Tailwind CSS to improve content management workflows.',
         'Designed and integrated RESTful APIs and database systems to support seamless data synchronization.'
-      ],
-      projects: [
-        {
-          name: 'MAN Building Inspection & Design',
-          url: 'https://manbuilding.co.th/th/',
-          role: 'Fullstack, UI Design',
-          description: 'Bilingual website integrated with a custom backend CMS supporting Markdown data and Cloudinary.',
-          tech: ['Next.js 15', 'Tailwind CSS v4', 'react-markdown'],
-          image: '/experiences/EEC/manbuilding.png'
-        },
-        {
-          name: 'Puwapat Air-con',
-          url: 'https://eec-preview.vercel.app/',
-          role: 'Frontend, UI Design',
-          description: 'Modern website for a solar panel installation company showcasing portfolio and certifications.',
-          tech: ['Next.js', 'Tailwind CSS'],
-          image: '/experiences/EEC/puwapat.png'
-        },
-        {
-          name: 'HengWash (เฮงวอช สะดวกซัก)',
-          url: 'https://hengwash.eecsearch.co.th/',
-          role: 'Frontend, UI Design',
-          description: 'A 24-hour premium laundromat and delivery service single-page promotional website.',
-          tech: ['Next.js', 'Tailwind CSS'],
-          image: '/experiences/EEC/hengwash.png'
-        },
-        {
-          name: 'Hengudomporn (เฮงอุดมพร)',
-          url: 'https://www.hengudomporn.co.th/',
-          role: 'Frontend, UI Design',
-          description: 'V1 modern responsive website for a construction contractor featuring a project portfolio.',
-          tech: ['Next.js', 'Tailwind CSS'],
-          image: '/experiences/EEC/hengudomporn.png'
-        }
       ]
     },
     {
@@ -144,64 +110,6 @@ const Experiences = ({ theme }: { theme: ThemeConfig }) => {
                       </li>
                     ))}
                   </ul>
-
-                  {exp.projects && (
-                    <div className={`mt-8 border-t pt-6 transition-colors duration-1000 ${theme.colors.border}`}>
-                      <h5 className={`text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2 ${theme.colors.textSecondary}`}>
-                        <Globe className="w-4 h-4" /> Key Projects
-                      </h5>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {exp.projects.map((project, idx) => (
-                          <a 
-                            key={idx} 
-                            href={project.url} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className={`group flex flex-col transition-all duration-300 border rounded-2xl p-4 shadow-sm hover:scale-[1.02] hover:shadow-md ${theme.colors.bgSecondary} ${theme.colors.border}`}
-                          >
-                            <div className={`w-full h-32 rounded-lg mb-4 overflow-hidden border relative ${theme.colors.bgPrimary} ${theme.colors.border}`}>
-                              <div className="absolute top-2 left-2 flex gap-1.5 z-10">
-                                <div className="w-2 h-2 rounded-full bg-red-400/80"></div>
-                                <div className="w-2 h-2 rounded-full bg-yellow-400/80"></div>
-                                <div className="w-2 h-2 rounded-full bg-green-400/80"></div>
-                              </div>
-                              <img 
-                                src={project.image} 
-                                alt={project.name}
-                                className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                                onError={(e) => {
-                                  e.currentTarget.style.display = 'none';
-                                  e.currentTarget.parentElement!.innerHTML += `<div class="w-full h-full flex items-center justify-center text-xs opacity-50 ${theme.colors.textSecondary}">Preview Image</div>`;
-                                }}
-                              />
-                            </div>
-
-                            <div className="flex justify-between items-start gap-2 mb-2">
-                              <h6 className={`font-bold transition-colors group-hover:opacity-80 ${theme.colors.textPrimary}`}>
-                                {project.name}
-                              </h6>
-                              <ExternalLink className={`w-4 h-4 shrink-0 transition-colors group-hover:opacity-80 ${theme.colors.accent}`} />
-                            </div>
-                            
-                            <p className={`text-sm mb-3 line-clamp-2 transition-colors duration-1000 ${theme.colors.textSecondary}`}>
-                              {project.description}
-                            </p>
-
-                            <div className="flex flex-wrap gap-1.5 mt-auto">
-                              {project.tech.map((techItem) => (
-                                <span 
-                                  key={techItem} 
-                                  className={`text-[10px] px-2 py-0.5 border rounded-full font-medium transition-colors duration-1000 ${theme.colors.bgPrimary} ${theme.colors.border} ${theme.colors.textSecondary}`}
-                                >
-                                  {techItem}
-                                </span>
-                              ))}
-                            </div>
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  )}
 
                 </div>
               </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Volume2, VolumeX } from "lucide-react";
+import { Volume2, VolumeX, Monitor } from "lucide-react";
 
 interface EnterScreenProps {
   onEnter: (playAudio: boolean) => void;
@@ -10,9 +10,9 @@ interface EnterScreenProps {
 export const EnterScreen = ({ onEnter }: EnterScreenProps) => {
   return (
     <motion.div
-      exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+      exit={{ opacity: 0 }}
       transition={{ duration: 1 }}
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white/80 backdrop-blur-md"
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white/95"
     >
       {/* ไอคอนลำโพงใหญ่ด้านบน (มีแอนิเมชันเด้งขึ้นมาเล็กน้อย) */}
       <motion.div
@@ -25,9 +25,16 @@ export const EnterScreen = ({ onEnter }: EnterScreenProps) => {
       </motion.div>
 
       {/* ข้อความภาษาอังกฤษ */}
-      <p className="text-lg text-gray-600 mb-10 text-center max-w-md px-4 leading-relaxed font-medium">
-        For the best immersive experience, would you like to enable background music and ambient sounds?
-      </p>
+      <div className="text-center max-w-md px-4 mb-10">
+        <p className="text-lg text-gray-600 leading-relaxed font-medium mb-4">
+          For the best immersive experience, would you like to enable background music and ambient sounds?
+        </p>
+        
+        <p className="text-sm text-gray-400 flex items-center justify-center gap-2">
+          <Monitor className="w-4 h-4" />
+          For the best experience, please use a desktop device.
+        </p>
+      </div>
 
       <div className="flex flex-col sm:flex-row gap-4 px-4 w-full justify-center">
         {/* ปุ่มเปิดเสียง (Yes) */}
