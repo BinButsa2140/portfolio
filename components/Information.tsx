@@ -7,7 +7,6 @@ import {
   Code2,
   Layers,
   Wrench,
-  Eye,
 } from "lucide-react";
 import { ThemeConfig } from "@/types/type";
 import confetti from "canvas-confetti";
@@ -31,10 +30,8 @@ const GithubIcon = ({ className }: { className?: string }) => (
 const Information = ({ theme }: { theme: ThemeConfig }) => {
   const doorControls = useAnimation();
   const pawControls = useAnimation();
-  const windowControls = useAnimation();
   const [isAnimating, setIsAnimating] = useState(false);
   const [showEyes, setShowEyes] = useState(false);
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
   const skillCategories = [
     {
@@ -112,26 +109,6 @@ const Information = ({ theme }: { theme: ThemeConfig }) => {
     setIsAnimating(false);
   };
 
-  const handleLiveClick = () => {
-    if (isVideoPlaying) return;
-    setIsVideoPlaying(true);
-    windowControls.start({ x: "100%", transition: { type: "spring", bounce: 0.1, duration: 1.2 } }); // Slower slide for huge block
-    
-    const video = document.getElementById("me-video") as HTMLVideoElement;
-    if (video) {
-      video.currentTime = 0;
-      video.play().catch(e => console.log("Video play failed:", e));
-    }
-
-    setTimeout(() => {
-      windowControls.start({ x: "0%", transition: { ease: "easeInOut", duration: 0.8 } });
-      setTimeout(() => {
-         if(video) video.pause();
-         setIsVideoPlaying(false);
-      }, 800);
-    }, 7100);
-  };
-
   return (
     <div className={`max-w-5xl mx-auto my-10 rounded-[2.5rem] shadow-2xl border overflow-hidden transition-colors duration-1000 ${theme.colors.bgPrimary} ${theme.colors.border}`}>
       
@@ -200,145 +177,102 @@ const Information = ({ theme }: { theme: ThemeConfig }) => {
       </div>
 
       {/* ========================================== */}
-      {/* Main Content Area (Header + Sliding Body) */}
+      {/* Main Content Area */}
       {/* ========================================== */}
       <div className="relative w-full flex flex-col">
         {/* Header Section (Static) */}
         <div className="p-8 md:p-12 pb-4 flex flex-col md:flex-row justify-between items-center md:items-start gap-6 z-20 relative">
           <div className="text-center md:text-left">
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mb-2">
-              <h1 className={`text-4xl md:text-5xl font-bold tracking-tight transition-colors duration-1000 ${theme.colors.textPrimary}`}>
-                Binsung Butsabong
-              </h1>
-              
-              {/* Live Button */}
-              <button
-                onClick={handleLiveClick}
-                className="group flex items-center gap-2 px-3 py-1.5 rounded-full border border-red-500/30 bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-all hover:scale-105 hover:shadow-[0_0_15px_rgba(239,68,68,0.4)]"
-              >
-                <span className="relative flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-                </span>
-                <Eye className="w-5 h-5" />
-                <span className="font-bold tracking-widest uppercase text-sm">Open to work</span>
-              </button>
-            </div>
+            <h1 className={`text-4xl md:text-5xl font-bold tracking-tight mb-2 transition-colors duration-1000 ${theme.colors.textPrimary}`}>
+              Binsung Butsabong
+            </h1>
             <p className={`text-xl md:text-2xl font-medium transition-colors duration-1000 ${theme.colors.textSecondary}`}>
               Full-Stack Developer
             </p>
           </div>
         </div>
 
-        {/* Sliding Area Container */}
-        <div className="relative w-full flex-1 overflow-hidden rounded-b-[2.5rem]">
-          {/* Background Video (Revealed when content slides right) */}
-          <div className="absolute inset-0 z-0 bg-black">
-            <video
-              id="me-video"
-              src="/videos/me.mp4"
-              className="w-full h-full object-cover opacity-80"
-              muted
-              playsInline
-            />
-            {/* Deep Inner Shadow to look like a room/studio inside */}
-            <div className="absolute inset-0 shadow-[inset_0_0_40px_rgba(0,0,0,1)] pointer-events-none" />
-            <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-black/60 to-transparent pointer-events-none" />
+        {/* Content Body */}
+        <div className={`relative w-full px-8 pb-8 md:px-12 md:pb-12 space-y-8 transition-colors duration-1000 ${theme.colors.bgPrimary} rounded-b-[2.5rem]`}>
+          <div className={`flex flex-col lg:flex-row gap-3 lg:gap-6 text-sm md:text-base font-medium justify-center md:justify-start transition-colors duration-1000 ${theme.colors.textSecondary}`}>
+            <a href="mailto:binsung.butsabong@gmail.com" className="group flex items-center gap-2 justify-center hover:opacity-70 transition-opacity">
+              <Mail className={`w-4 h-4 transition-colors ${theme.colors.accent}`} />
+              <span>binsung.butsabong@gmail.com</span>
+            </a>
+            <a href="tel:+66870574516" className="group flex items-center gap-2 justify-center hover:opacity-70 transition-opacity">
+              <Phone className={`w-4 h-4 transition-colors ${theme.colors.accent}`} />
+              <span>(+66) 087-057-4516</span>
+            </a>
+            <a href="https://github.com/BinButsa2140" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 justify-center hover:opacity-70 transition-opacity">
+              <GithubIcon className={`w-4 h-4 transition-colors ${theme.colors.accent}`} />
+              <span className="font-bold">GitHub :</span> BinButsa2140
+            </a>
           </div>
 
-          {/* Foreground Sliding Content */}
-          <motion.div
-            animate={windowControls}
-            initial={{ x: "0%" }}
-            className={`relative z-10 w-full min-h-full px-8 pb-8 md:px-12 md:pb-12 space-y-8 transition-colors duration-1000 ${theme.colors.bgPrimary}`}
-            style={{ boxShadow: "-10px 0 30px rgba(0,0,0,0.5)" }}
-          >
-            {/* Shadow edge detail (the door edge) */}
-            <div className="absolute top-0 bottom-0 left-0 w-3 bg-gradient-to-r from-black/10 to-transparent pointer-events-none" />
+          <p className={`leading-relaxed md:text-lg text-center md:text-left transition-colors duration-1000 ${theme.colors.textSecondary}`}>
+            Full-Stack Developer with hands-on experience in System Design, Migration, and Automation. Proficient in designing web architectures and integrating LLMs for document processing. Passionate about building impactful products and writing reliable code.
+          </p>
 
-            <div className={`flex flex-col lg:flex-row gap-3 lg:gap-6 text-sm md:text-base font-medium justify-center md:justify-start transition-colors duration-1000 ${theme.colors.textSecondary}`}>
-              <a href="mailto:binsung.butsabong@gmail.com" className="group flex items-center gap-2 justify-center hover:opacity-70 transition-opacity">
-                <Mail className={`w-4 h-4 transition-colors ${theme.colors.accent}`} />
-                <span>binsung.butsabong@gmail.com</span>
-              </a>
-              <a href="tel:+66870574516" className="group flex items-center gap-2 justify-center hover:opacity-70 transition-opacity">
-                <Phone className={`w-4 h-4 transition-colors ${theme.colors.accent}`} />
-                <span>(+66) 087-057-4516</span>
-              </a>
-              <a href="https://github.com/BinButsa2140" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 justify-center hover:opacity-70 transition-opacity">
-                <GithubIcon className={`w-4 h-4 transition-colors ${theme.colors.accent}`} />
-                <span className="font-bold">GitHub :</span> BinButsa2140
-              </a>
-            </div>
-
-            <p className={`leading-relaxed md:text-lg text-center md:text-left transition-colors duration-1000 ${theme.colors.textSecondary}`}>
-              Full-Stack Developer with hands-on experience in System Design, Migration, and Automation. Proficient in designing web architectures and integrating LLMs for document processing. Passionate about building impactful products and writing reliable code.
-            </p>
-
-            <div className="flex justify-center md:justify-start">
-              {/* Education Box */}
-              <div className={`p-5 rounded-3xl border w-full lg:w-auto text-left shadow-sm transition-all duration-1000 hover:shadow-md flex flex-col justify-center ${theme.colors.bgSecondary} ${theme.colors.border}`}>
-                <div className="flex items-start gap-4">
-                  <div className={`p-2 rounded-full shadow-sm ${theme.colors.bgSecondary}`}>
-                    <GraduationCap className={`w-6 h-6 ${theme.colors.textPrimary}`} />
-                  </div>
-                  <div className="flex flex-col">
-                    <p className={`font-bold ${theme.colors.textPrimary}`}>
-                      Kasetsart University
+          <div className="flex justify-center md:justify-start">
+            <div className={`p-5 rounded-3xl border w-full lg:w-auto text-left shadow-sm transition-all duration-1000 hover:shadow-md flex flex-col justify-center ${theme.colors.bgSecondary} ${theme.colors.border}`}>
+              <div className="flex items-start gap-4">
+                <div className={`p-2 rounded-full shadow-sm ${theme.colors.bgSecondary}`}>
+                  <GraduationCap className={`w-6 h-6 ${theme.colors.textPrimary}`} />
+                </div>
+                <div className="flex flex-col">
+                  <p className={`font-bold ${theme.colors.textPrimary}`}>
+                    Kasetsart University
+                  </p>
+                  <div className="flex items-center flex-wrap gap-3 mt-1">
+                    <p className={`text-sm font-medium ${theme.colors.textSecondary}`}>
+                      B.S. Computer Science (First Class Honours)
                     </p>
-                    <div className="flex items-center flex-wrap gap-3 mt-1">
-                      <p className={`text-sm font-medium ${theme.colors.textSecondary}`}>
-                        B.S. Computer Science (First Class Honours)
-                      </p>
-                      
-                      {/* Gold Badge */}
-                      <motion.div
-                        whileHover={{ scale: 1.1, rotate: -3 }}
-                        whileTap={{ scale: 0.95, rotate: 0 }}
-                        onClick={triggerFireworks}
-                        className="cursor-pointer inline-flex items-center justify-center px-2.5 py-1 text-xs font-black text-yellow-950 bg-gradient-to-br from-yellow-300 via-yellow-400 to-amber-500 rounded-full shadow-[0_0_10px_rgba(253,224,71,0.4)] border border-yellow-200 select-none hover:shadow-[0_0_15px_rgba(253,224,71,0.8)]"
-                        title="Click for celebration!"
-                      >
-                        🏆 <span className="ml-1">First Class Honour</span>
-                      </motion.div>
-                    </div>
-                    <p className={`text-sm opacity-80 mt-1 ${theme.colors.textSecondary}`}>
-                      GPA: 3.84
-                    </p>
+                    <motion.div
+                      whileHover={{ scale: 1.1, rotate: -3 }}
+                      whileTap={{ scale: 0.95, rotate: 0 }}
+                      onClick={triggerFireworks}
+                      className="cursor-pointer inline-flex items-center justify-center px-2.5 py-1 text-xs font-black text-yellow-950 bg-gradient-to-br from-yellow-300 via-yellow-400 to-amber-500 rounded-full shadow-[0_0_10px_rgba(253,224,71,0.4)] border border-yellow-200 select-none hover:shadow-[0_0_15px_rgba(253,224,71,0.8)]"
+                      title="Click for celebration!"
+                    >
+                      🏆 <span className="ml-1">First Class Honour</span>
+                    </motion.div>
                   </div>
+                  <p className={`text-sm opacity-80 mt-1 ${theme.colors.textSecondary}`}>
+                    GPA: 3.84
+                  </p>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div className={`space-y-6 pt-4 border-t transition-colors duration-1000 ${theme.colors.border}`}>
-              <p className={`text-sm font-bold uppercase tracking-widest text-center md:text-left ${theme.colors.textSecondary}`}>
-                Technical Skills
-              </p>
+          <div className={`space-y-6 pt-4 border-t transition-colors duration-1000 ${theme.colors.border}`}>
+            <p className={`text-sm font-bold uppercase tracking-widest text-center md:text-left ${theme.colors.textSecondary}`}>
+              Technical Skills
+            </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {skillCategories.map((category, index) => (
-                  <div key={index} className="space-y-3">
-                    <div className={`flex items-center gap-2 justify-center md:justify-start group ${theme.colors.textPrimary}`}>
-                      <div className="transition-transform duration-300 group-hover:scale-110">
-                        {category.icon}
-                      </div>
-                      <span className="font-semibold">{category.title}</span>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {skillCategories.map((category, index) => (
+                <div key={index} className="space-y-3">
+                  <div className={`flex items-center gap-2 justify-center md:justify-start group ${theme.colors.textPrimary}`}>
+                    <div className="transition-transform duration-300 group-hover:scale-110">
+                      {category.icon}
                     </div>
-                    <div className="flex flex-wrap justify-center md:justify-start gap-2">
-                      {category.skills.map((tech) => (
-                        <span
-                          key={tech}
-                          className={`px-3 py-1.5 border rounded-xl text-sm font-medium shadow-sm transition-all duration-1000 hover:scale-105 cursor-default ${theme.colors.bgSecondary} ${theme.colors.border} ${theme.colors.textPrimary}`}
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
+                    <span className="font-semibold">{category.title}</span>
                   </div>
-                ))}
-              </div>
+                  <div className="flex flex-wrap justify-center md:justify-start gap-2">
+                    {category.skills.map((tech) => (
+                      <span
+                        key={tech}
+                        className={`px-3 py-1.5 border rounded-xl text-sm font-medium shadow-sm transition-all duration-1000 hover:scale-105 cursor-default ${theme.colors.bgSecondary} ${theme.colors.border} ${theme.colors.textPrimary}`}
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </div>
