@@ -189,7 +189,7 @@ const Projects = ({ theme }: { theme: ThemeConfig }) => {
       category: 'Frontend Development',
       period: 'August 2025',
       coverImage: '/projects/puwapat/cover/puwapat.png',
-      images: ['/projects/puwapat/puwapat.png'], 
+      images: ['/projects/puwapat/cover/puwapat.png'], 
       githubUrl: '#',
       url: 'https://eec-preview.vercel.app/',
       designDocUrl: '#',
@@ -206,7 +206,7 @@ const Projects = ({ theme }: { theme: ThemeConfig }) => {
       category: 'Frontend Development',
       period: 'June 2025',
       coverImage: '/projects/hengwash/cover/hengwash.png',
-      images: ['/projects/hengwash/hengwash.png'], 
+      images: ['/projects/hengwash/cover/hengwash.png'], 
       githubUrl: '#',
       url: 'https://hengwash.eecsearch.co.th/',
       designDocUrl: '#',
@@ -223,7 +223,7 @@ const Projects = ({ theme }: { theme: ThemeConfig }) => {
       category: 'Frontend Development',
       period: 'April 2025',
       coverImage: '/projects/hengudomporn/cover/hengudomporn.png',
-      images: ['/projects/hengudomporn/hengudomporn.png'], 
+      images: ['/projects/hengudomporn/cover/hengudomporn.png'], 
       githubUrl: '#',
       url: 'https://www.hengudomporn.co.th/',
       designDocUrl: '#',
@@ -357,7 +357,14 @@ const Projects = ({ theme }: { theme: ThemeConfig }) => {
                   
                   {/* คอลัมน์ซ้าย: ImageSlideshow (ส่ง theme เข้าไปด้วย) */}
                   <div className="w-full lg:w-[55%] shrink-0">
-                    <ImageSlideshow images={activeProject.images || []} theme={theme} />
+                    <ImageSlideshow 
+                      images={
+                        activeProject.images && activeProject.images.length > 0 
+                          ? activeProject.images 
+                          : (activeProject.coverImage ? [activeProject.coverImage] : [])
+                      } 
+                      theme={theme} 
+                    />
                   </div>
 
                   {/* คอลัมน์ขวา: รายละเอียด */}
