@@ -1,26 +1,65 @@
-'use client';
+"use client";
+
 import { useState } from 'react';
-import { Briefcase, Calendar, MapPin, ChevronDown } from 'lucide-react';
+import Image from 'next/image';
+import { Briefcase, Calendar, MapPin, ChevronDown, CheckCircle2 } from 'lucide-react';
 import { ThemeConfig } from "@/types/type";
 
+interface ExperienceDetail {
+  title?: string;
+  items: string[];
+}
+
+interface Experience {
+  id: string;
+  role: string;
+  company: string;
+  location: string;
+  period: string;
+  image?: string;
+  details: ExperienceDetail[];
+}
+
 const Experiences = ({ theme }: { theme: ThemeConfig }) => {
-  const [expandedId, setExpandedId] = useState<string | null>('eec');
+  const [expandedId, setExpandedId] = useState<string | null>('gosoft');
 
   const toggleExpand = (id: string) => {
     setExpandedId(expandedId === id ? null : id);
   };
 
-  const experienceData = [
-    {
+  const experienceData: Experience[] = [
+        {
       id: 'eec',
       role: 'Freelance Full Stack Developer',
       company: 'EEC Search Industry',
       location: 'Bangkok, Thailand',
       period: 'April 2025 - Present',
-      descriptions: [
-        'Developed and maintained a full-stack CMS platform for managing internal organizational content across multiple websites.',
-        'Built responsive front-end interfaces using Next.js and Tailwind CSS to improve content management workflows.',
-        'Designed and integrated RESTful APIs and database systems to support seamless data synchronization.'
+      image: '/experiences/EEC/eec.jpg',
+      details: [
+        {
+          title: "Corporate Websites Development",
+          items: [
+            "Developed four distinct corporate websites with a primary focus on Search Engine Optimization (SEO).",
+            "Utilized a modern tech stack including Next.js, Tailwind CSS, and Lucide React to build highly responsive and performant user interfaces."
+          ]
+        },
+        {
+          title: "Scalable CMS & Quotation Platform",
+          items: [
+            "Engineered a scalable Content Management System (CMS) designed to accommodate future expansion across multiple affiliated companies.",
+            "Implemented secure authentication using NextAuth.js, integrated with session management and rate limiting protocols.",
+            "Managed content rendering via ReactMarkdown and integrated Cloudinary for robust image hosting and optimization.",
+            "Developed a Quotation Management system allowing prospective clients to submit requests, with a comprehensive state-management backend for administrators to track the lifecycle from initiation to completion."
+          ]
+        },
+        {
+          title: "EECCMS (Multi-tenant Content Management System)",
+          items: [
+            "Developed a centralized multi-tenant CMS for corporate clients under the EEC Search umbrella.",
+            "Designed a data architecture enabling client companies to independently manage their backend data, dynamically updating their respective frontend websites.",
+            "Built an administrative dashboard to track user website traffic and analytics utilizing session data."
+          ]
+        }
       ]
     },
     {
@@ -29,23 +68,66 @@ const Experiences = ({ theme }: { theme: ThemeConfig }) => {
       company: 'Gosoft (Thailand) Co., Ltd.',
       location: 'Bangkok, Thailand',
       period: 'November 2025 - March 2026',
-      descriptions: [
-        'Migrated legacy Java code for the Store Business Partner Management System (SBP Mall) to a modern technology stack, redeveloping system logic using TypeScript, Node.js, and NestJS for backend services, and Next.js to support the current architecture.',
-        'Designed and developed backend services for document creation and inventory availability tracking, managing data structures utilizing PostgreSQL.',
-        'Verified system functionality through automated audit statements to evaluate performance and ensure data accuracy according to defined standards.',
-        'Implemented unit tests using Jest, resolved software defects reported by QA teams, and provided technical support during User Acceptance Testing (UAT) to ensure system reliability.'
+      image: '/experiences/Gosoft/wss.jpg',
+      details: [
+        {
+          title: "Frontend & UI Development",
+          items: [
+            "Developed user interfaces for document submission workflows, featuring tabbed navigation, recipient selection, historical audit logs, and data verification filters."
+          ]
+        },
+        {
+          title: "Document Processing Module",
+          items: [
+            "PDF Processing: Developed a PDF merging system using pdf-lib, implementing watermarks, bookmarks, and password protection for enhanced document security.",
+            "Two-phase Email Delivery: Engineered a two-step email dispatch logic, initially sending the encrypted document and subsequently automating the password delivery upon successful transmission confirmation.",
+            "Data Cleanup & Logging: Implemented transaction logging and developed automated data retention logic to purge expired records to optimize database storage."
+          ]
+        },
+        {
+          title: "Report Generation Module",
+          items: [
+            "CSV Parsing & Mapping: Developed CSV parsing logic utilizing Regex to safely handle embedded characters, mapping the extracted data into DTO formats with ID padding.",
+            "Data Enrichment & Routing: Implemented dynamic routing logic to assign communications based on hierarchical branch performance data.",
+            "Display Logic: Engineered dynamic calculation features and text processing based on multi-variable business rules and conditional formatting.",
+            "PDF Generation: Utilized PDFKit for absolute positioning generation of A4 reports, maintaining strict structural parity with legacy Jasper Reports outputs.",
+            "Database Transaction: Managed data integrity through database transactions, safely executing legacy data deletion and Upsert operations into core tables."
+          ]
+        },
+        {
+          title: "Data Analytics Module",
+          items: [
+            "Historical Data Reporting: Wrote complex Raw SQL queries utilizing CTEs, Window Functions, and FILTER pivots to aggregate and compare 24-36 months of historical performance metrics across different regional dimensions.",
+            "Batch Data Import: Engineered a stream-based data import pipeline with iconv (win874) encoding conversion, accumulated calculation logic, staging table buffering, and batch-sized database inserts. Integrated with AWS S3 for file management and automated status alerts."
+          ]
+        },
+        {
+          title: "Testing & QA Collaboration",
+          items: [
+            "Developed Unit Tests using Jest for core system modules to validate critical business logic.",
+            "Collaborated with the QA team to resolve over 100 software defects across the UI, backend logic, and SQL queries, ensuring system readiness for User Acceptance Testing (UAT)."
+          ]
+        }
       ]
     },
     {
       id: 'botnoi',
-      role: 'Backend Developer Intern',
+      role: 'Backend Developer (Hackathon)',
       company: 'Botnoi Consulting',
       location: 'Bangkok, Thailand',
       period: 'April 2025 - June 2025',
-      descriptions: [
-        'Developed an automated "One Stop Service" leave management bot on Discord using n8n workflows.',
-        'Integrated MongoDB for persistent leave data storage and Google Sheets for real-time reporting to HR.',
-        'Implemented automated notification and tagging features to alert team leads and mentors about daily leave status and upcoming absences.'
+      
+      details: [
+        {
+          title: "AI Chatbot Leave Management System",
+          items: [
+            "Developed an automated leave management AI Chatbot using the LINE Messaging API during an internal corporate Hackathon.",
+            "Designed a conversational flow where the chatbot intercepts user leave requests and automatically generates a confirmation prompt for the specified dates.",
+            "Integrated the system with Google Sheets to persist leave records, facilitating accessible monitoring for the HR department.",
+            "Implemented logic to map and verify the hierarchical relationship between employees and their respective team mentors.",
+            "Created an automated daily summary report that tags and notifies relevant team mentors of upcoming absences every day at 9:00 AM."
+          ]
+        }
       ]
     }
   ];
@@ -102,14 +184,39 @@ const Experiences = ({ theme }: { theme: ThemeConfig }) => {
               <div className={`grid transition-all duration-300 ease-in-out ${isExpanded ? 'grid-rows-[1fr] opacity-100 mt-6' : 'grid-rows-[0fr] opacity-0'}`}>
                 <div className="overflow-hidden">
                   
-                  <ul className={`space-y-3 leading-relaxed list-none mb-6 transition-colors duration-1000 ${theme.colors.textSecondary}`}>
-                    {exp.descriptions.map((desc, index) => (
-                      <li key={index} className="relative pl-5">
-                        <span className={`absolute left-0 top-2.5 w-1.5 h-1.5 rounded-full opacity-50 ${theme.colors.bgPrimary}`} style={{backgroundColor: 'currentColor'}} />
-                        {desc}
-                      </li>
+                  {/* Image Section */}
+                  {exp.image && (
+                    <div className={`relative w-full h-48 md:h-64 mb-6 rounded-2xl overflow-hidden border transition-colors duration-1000 ${theme.colors.border}`}>
+                      <Image 
+                        src={exp.image} 
+                        alt={`${exp.company} workplace`} 
+                        fill 
+                        className="object-cover object-center"
+                        sizes="(max-width: 768px) 100vw, 800px"
+                      />
+                    </div>
+                  )}
+
+                  {/* Details Section */}
+                  <div className="space-y-6">
+                    {exp.details.map((detail, idx) => (
+                      <div key={idx}>
+                        {detail.title && (
+                          <h5 className={`text-base font-bold mb-3 transition-colors duration-1000 ${theme.colors.textPrimary}`}>
+                            {detail.title}
+                          </h5>
+                        )}
+                        <ul className={`space-y-2.5 leading-relaxed list-none transition-colors duration-1000 ${theme.colors.textSecondary}`}>
+                          {detail.items.map((item, itemIdx) => (
+                            <li key={itemIdx} className="flex items-start gap-3">
+                              <CheckCircle2 className={`w-5 h-5 shrink-0 mt-0.5 opacity-60 ${theme.colors.accent}`} />
+                              <span className="text-sm md:text-base">{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
 
                 </div>
               </div>
